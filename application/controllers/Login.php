@@ -19,11 +19,13 @@ class Login extends CI_Controller {
 		if($username!=='' && $password!=='') {
 			$check = $this->common->admin_login($username,$password);
 			if($check) {
+				$role_name = $this->common->get_role_name($check['0']->role_id);
 				$session_data = array('admin_auth'=>1,
 				                      'id'=>$check['0']->id,
 				                      'name'=>$check['0']->full_name,
 				                      'email'=>$check['0']->email,
-									  'role_id'=>$check['0']->role_id
+									  'role_id'=>$check['0']->role_id,
+									  'role_name'=>$role_name
 									  );
 				$this->session->set_userdata($session_data);
 				redirect('dashboard'); 

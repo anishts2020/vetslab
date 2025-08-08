@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="card">
 								<div class="row">
 									<div class="col-md-12 col-lg-7 pr-0 d-none d-lg-block">
-										<img src="<?php echo base_url(); ?>assets/images/photos/login_image.jpg" alt="img" class="br-tl-2 br-bl-2 ">
+										<img src="<?php echo base_url(); ?>assets/images/photos/login_img.jpg" alt="img" class="br-tl-2 br-bl-2 ">
 									</div>
 									<div class="col-md-12 col-lg-5 pl-0 ">
 										<div class="card-body p-6 about-con pabout">
