@@ -9,7 +9,7 @@
 		<link rel="icon" href="<?php echo base_url(); ?>assets/images/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Title -->
-		<title>Vetslab - Dashboard</title>
+		<title>Vetslab</title>
 
 		<!-- Bootstrap css -->
 		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap-4.1.3/css/bootstrap.min.css" rel="stylesheet" />
