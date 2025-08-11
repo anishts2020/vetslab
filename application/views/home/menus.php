@@ -73,28 +73,41 @@
 
 						<!-- YOU CAN WRITE CODE HERE - START-->
 						<div class="row">
-							<div class="col-4">
-								
-							</div>
-							<div class="col-4">
-								
-							</div>
-							<div class="col-4">
-								
-							</div>
+                                <div class="col-4">
+									<label for="lbl_menuname">Enter Menu Name</label>
+									<input type="textbox" class="form-control" id="txt_menuname" name="menuname" placeholder="Enter Menu Name" required>
+                                </div>
+                                <div class="col-4">
+									<label for="lbl_menuurl">Enter Menu URL</label>
+									<input type="textbox" class="form-control" id="txt_menuurl" name="menuurl" placeholder="Enter Menu URL" required>
+                                </div>
+                                <div class="col-4">
+									<label for="lbl_parentid">Select Parent Menu</label>
+							<select name="parentid" id="drp_parentid" class="form-control">
+                                
+                            <option value="">Select</option>
+                                <?php foreach($main_menus as $mkey => $mvals){ ?>
+                                    <option value="<?php echo $mvals['id']; ?>"><?php echo $mvals['menu_name']; ?>
+                                                    
+                                        </option>
+                                <?php } ?>
+                            
+                            </select>
+
+
+                                </div>
+				</div>
+				<div class="row" style="padding-top: 10px;">
+                                <div class="col-4">
+                                </div>
+                                <div class="col-4">
+									<input type="submit" class="btn btn-success btn-block" id="btn_submit" value="Submit">
+                                </div>
+
+                                <div class="col-4">
+                                </div>
+				</div>
 						
-						</div>
-						<div class="row">
-							<div class="col-4">
-							
-							</div>
-							<div class="col-4">
-								
-							</div>
-							<div class="col-4">
-								
-						</div>
-						</div>
 						<!-- YOU CAN WRITE CODE HERE - END -->
 					</div>
 				</div>
