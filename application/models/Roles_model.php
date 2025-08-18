@@ -24,4 +24,15 @@ class Roles_model extends CI_Model {
                           ->get();
         return $query->result_array();
     }
+    public function get_all_roles()
+    {
+        $query = $this->db->select('*')
+                          ->from('user_roles')
+                          ->order_by('id', 'ASC')
+                          ->get();
+        return $query->result_array();
+    }
+    public function insert_role($data) {
+		return $this->db->insert('user_roles', $data);
+	}
 }
