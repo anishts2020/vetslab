@@ -50,6 +50,7 @@
 																	
 																		<div class="form-group mb-3">
 																			<div class="input-group input-group-alternative">
+																				<input type="hidden" id="edit_id" value="0">
 																				<input id="role_name" name="role_name" class="form-control" placeholder="Enter Role" type="text">
 																			</div>
 																		</div>
@@ -151,6 +152,7 @@
 														<th class="wd-15p border-bottom-0">SI No</th>
 														<th class="wd-15p border-bottom-0">Role name</th>
 														<th class="wd-20p border-bottom-0">Sescription</th>
+														<th class="wd-20p border-bottom-0">Action</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -160,6 +162,7 @@
 															<td><?php echo $rkey+1; ?></td>
 															<td><?php echo $rvals['role_name']; ?></td>
 															<td><?php echo $rvals['description']; ?></td>
+															<td><a href="" class="btn_edit" data-id="<?php echo $rvals['id']; ?>"><i class="fa fa-edit" type="button" title="Edit Role"></i></a></td>
 														</tr>
 													<?php } ?>
 												</tbody>
@@ -287,12 +290,14 @@ $(document).ready(function() {
 <script type="text/javascript">
 	$(document).on('click', '#btn_save', function(e) {
 		e.preventDefault();
+		var edit_id = $('#edit_id').val();
 		var role_name = $('#role_name').val();
 		var description = $('#description').val();
 		$.ajax({
 			type: "POST",
 			url: '<?= site_url('Roles/saveRole'); ?>',
 			data: {
+				edit_id:edit_id,
 				role_name: role_name,
 				description: description
 			},
@@ -307,9 +312,39 @@ $(document).ready(function() {
 				else if(response == 2){
 					alert("This Role alreay exist");
 				}
+				else if(response == 3){
+					alert("This Role Updated");
+					$('#role_name').val('');
+					$('#description').val('');
+					location.reload();
+				}
 				else{
 					alert("Please try again later");
 				}
+			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).on('click', '.btn_edit', function(e) {
+		e.preventDefault();
+		var id = $(this).attr('data-id');
+		$.ajax({
+			url: '<?= site_url('Roles/getRoleDatas'); ?>',
+			method: 'POST',
+			data: {
+				id: id
+			},
+			dataType: 'json',
+			success: function(response) {
+				$('#edit_id').val(id);
+				$('#role_name').val(response[0].role_name);
+				$('#description').val(response[0].description);
+				$('#btn_save').text("Update");
+				$('#modal-role').modal('show');
+			},
+			error: function(xhr, status, error) {
+				console.error('Error fetching role data:', error);
 			}
 		});
 	});
