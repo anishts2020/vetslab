@@ -9,6 +9,41 @@
 		<div id="loading">
 			<img src="<?php echo base_url(); ?>assets/images/other/loader-dark.svg" class="loader-img" alt="Loader">
 		</div>
+		<div class="modal fade" id="modal-breeds" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content shadow border-0">
+														<div class="modal-body p-0">
+															<div class="mb-0">
+																<div class="card-body px-lg-5 py-lg-5">
+																	<div class="text-center mb-4 h4">
+																		Add New Breeds
+																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	
+																		<div class="form-group mb-3">
+																			<div class="input-group input-group-alternative">
+																				<input type="hidden" id="edit_id" value="0">
+																				<input id="breeds_name" name="breeds_name" class="form-control" placeholder="Enter Breeds" type="text">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<!--<div class="input-group input-group-alternative">
+																				<textarea id="description" name="description" class="form-control" placeholder="Description"></textarea>
+																			</div>-->
+																		</div>
+																	
+																		<div class="text-center">
+																			<button type="button" id="btn_save" class="btn btn-primary my-4">Save</button>
+																		</div>
+																	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 
 		<!-- PAGE -->
 		<div class="page">
@@ -37,7 +72,7 @@
 									<div class="mt-3 mt-md-0">
 										<div class="border-right pr-4 mt-1 d-xl-block">
 											<p class="text-muted mb-2">Category</p>
-											<h6 class="font-weight-semibold mb-0">All Categories</h6>
+											<h6 class="font-weight-semibold mb-0">All Categories</h6> 
 										</div>
 									</div>
 									<div class="mt-3 mt-md-0">
@@ -68,9 +103,53 @@
 									</span>
 								</div>
 							</div>-->
+							<span class="mt-3 mt-md-0 pg-header">
+										<a href="#" class="btn btn-info ml-0 ml-md-4 mt-1" data-toggle="modal" data-target="#modal-breeds"><i class="typcn typcn-plus"></i> Add New Breeds</a>
+									</span>
 						</div>
 						<!-- Page-header closed -->
+                        <div class="row">
+							<div class="col-md-12 col-lg-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">Breed List View</div>
+										<div class="card-options">
+											<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+											<a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="table-responsive ">
+											<table class="table" id="table_roles" style="width: 100%;">
+												<thead style="background-color: #003366; color:#fff;">
+													<tr>
+														<th class="wd-15p border-bottom-0">Sl No</th>
+														<th class="wd-15p border-bottom-0">Breed name</th>
+														<!--<th class="wd-20p border-bottom-0">Description</th>-->
+														<th class="wd-20p border-bottom-0">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php 
+													foreach($all_breeds as $rkey => $rvals){ ?>
+														<tr>
+															<td><?php echo $rkey+1; ?></td>
+															<td><?php echo $rvals['breeds_name']; ?></td>
+															<!--<td><?php //echo $rvals['description']; ?></td>-->
 
+															<td><a href="" class="btn_edit" data-id="<?php echo $rvals['breeds_id']; ?>"><i class="fa fa-edit" type="button" title="Edit Breed"></i></a>
+															<a href="#" class="btn_delete text-danger ml-2" data-id="<?php echo $rvals['breeds_id']; ?>"><i class="fa fa-trash" title="Delete breed"></i></a></td>
+														</tr>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<!-- table-wrapper -->
+								</div>
+								<!-- section-wrapper -->
+							</div>
+						</div>
 						<!-- YOU CAN WRITE CODE HERE - START-->
 						<div class="row">
 							<div class="col-4">
@@ -189,3 +268,92 @@
 
 	</body>
 </html>
+<script type="text/javascript">
+	$(document).on('click', '#btn_save', function(e) {
+		e.preventDefault();
+		var edit_id = $('#edit_id').val();
+		var breeds_name = $('#breeds_name').val();
+		//var description = $('#description').val();
+		$.ajax({
+			type: "POST",
+			url: '<?= site_url('Breeds/saveBreeds'); ?>',
+			data: {
+				edit_id:edit_id,
+				breeds_name: breeds_name,
+				//description: description
+			},
+			dataType: 'json',
+			success: function(response) {
+				if(response == 1){
+					alert("Breeds Saved");
+					$('#breeds_name').val('');
+					//$('#description').val('');
+					location.reload();
+				}
+				else if(response == 2){
+					alert("This Breeds alreay exist");
+				}
+				else if(response == 3){
+					alert("This Breeds Updated");
+					$('#breeds_name').val('');
+					//$('#description').val('');
+					location.reload();
+				}
+				else{
+					alert("Please try again later");
+				}
+			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).on('click', '.btn_edit', function(e) {
+		e.preventDefault();
+		var id = $(this).attr('data-id');
+		$.ajax({
+			url: '<?= site_url('Breeds/getBreedsDatas'); ?>',
+			method: 'POST',
+			data: {
+				breeds_id: id
+			},
+			dataType: 'json',
+			success: function(response) {
+				$('#edit_id').val(id);
+				$('#breeds_name').val(response[0].breeds_name);
+				$('#description').val(response[0].description);
+				$('#btn_save').text("Update");
+				$('#modal-breeds').modal('show');
+			},
+			error: function(xhr, status, error) {
+				console.error('Error fetching breeds data:', error);
+			}
+		});
+	});
+</script>
+<script type="text/javascript">
+$(document).on('click', '.btn_delete', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+
+    if (confirm("Are you sure you want to delete this breed?")) {
+        $.ajax({
+            url: '<?= site_url('Breeds/deleteBreeds'); ?>',
+            type: 'POST',
+            data: { breeds_id: id },
+            dataType: 'json',
+            success: function(response) {
+                if (response == 1) {
+                    alert("Breed deleted successfully!");
+                    location.reload(); // refresh table or use DataTable reload if applied
+                } else {
+                    alert("Failed to delete breed. Please try again.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Delete error:", error);
+                alert("Something went wrong. Please try again later.");
+            }
+        });
+    }
+});
+</script>
