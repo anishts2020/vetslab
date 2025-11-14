@@ -479,51 +479,27 @@ $(document).ready(function(){
 
     // ✅ If all fields valid → proceed with AJAX
   $.ajax({
-    type: "POST",
-    url: "<?= site_url('Registration/saveRegistration'); ?>",
-    data: $('#registrationForm').serialize(),
-    dataType: "json",
-    success: function(response) {
-        if (response.status === 'success') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Saved!',
-                text: response.message,
-                confirmButtonText: 'OK'
-            }).then(() => {
-                
-                // Reset form and close modal after OK
+        type: "POST",
+        url: "<?= site_url('Registration/saveRegistration'); ?>",
+        data: $('#registrationForm').serialize(),
+        dataType: "json",
+        success: function (response) {
+            if (response.status === 'success') {
+                alert("✅ " + response.message);
                 $('#registrationForm')[0].reset();
                 $('#btn_save').text('Save');
                 $('#reg_id').prop('readonly', false);
                 $('#modal-registration').modal('hide');
-
-                // OPTION A – FULL PAGE REFRESH (same as your old code)
-                location.reload();  // ✅ ADD THIS LINE
-
-                // If you prefer only table reload, remove above and use:
-                // loadPatientsTable();
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: response.message,
-                confirmButtonText: 'OK'
-            });
+                loadPatientsTable();
+            } else {
+                alert("❌ Error: " + response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("AJAX Error: " + error);
+            console.error(xhr.responseText);
         }
-    },
-    error: function(xhr, status, error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'AJAX Error',
-            text: error,
-            confirmButtonText: 'OK'
-        });
-        console.error(xhr.responseText);
-    }
-});
-
+    });
 });
 
     $(document).on('click', '.btn_edit', function(){
