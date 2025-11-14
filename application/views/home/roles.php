@@ -151,7 +151,7 @@
 													<tr>
 														<th class="wd-15p border-bottom-0">SI No</th>
 														<th class="wd-15p border-bottom-0">Role name</th>
-														<th class="wd-20p border-bottom-0">Sescription</th>
+														<th class="wd-20p border-bottom-0">Description</th>
 														<th class="wd-20p border-bottom-0">Action</th>
 													</tr>
 												</thead>
