@@ -124,7 +124,7 @@
       <small id="mobError" style="color:red; display:none;">Please enter a valid 10-digit mobile number.</small>
 			</div>
 </div>
-<form>
+
 <div class="row">
 			<div class="col-md-4">
 				<label for="place">Place</label>
@@ -450,83 +450,82 @@
 </style>
 	</body>
 </html>
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 <script>
 $(document).ready(function(){
 
-    // ===========================
-    // SAVE or UPDATE registration
-    // ===========================
-$(document).on('click', '#btn_save', function (e) {
+  
+// When Save button is clicked
+  $('#btn_save').on('click', function(e) {
     e.preventDefault();
 
-    // Collect required field values
-    let con_fee = $('#con_fee').val().trim();
-    let patient_name = $('#patient_name').val().trim();
+    // Get values
+    let conFee = $('#con_fee').val().trim();
+    let patientName = $('#patient_name').val().trim();
     let age = $('#age').val().trim();
-    let y_m_d = $('#y_m_d').val().trim();
-    let sex = $('#sex').val().trim();
+    let ymd = $('#y_m_d').val();
+    let sex = $('#sex').val();
 
-    // Validation checks
-    if (con_fee === '') {
-        alert('Please enter Consultation Fee');
-        $('#con_fee').focus();
-        return;
-    }
-
-    if (patient_name === '') {
-        alert('Please enter Patient Name');
-        $('#patient_name').focus();
-        return;
-    }
-
-    if (age === '') {
-        alert('Please enter Age');
-        $('#age').focus();
-        return;
-    }
-
-    if (y_m_d === '') {
-        alert('Please select Years/Months/Days');
-        $('#y_m_d').focus();
-        return;
-    }
-
-    if (sex === '') {
-        alert('Please select Sex');
-        $('#sex').focus();
-        return;
+    // Simple validation
+    if (!conFee || !patientName || !age || !ymd || !sex) {
+      alert('⚠️ Please fill all required fields:\nConsultation Fee, Patient Name, Age and Sex.');
+      return; // stop AJAX here
     }
 
     // ✅ If all fields valid → proceed with AJAX
-    $.ajax({
-        type: "POST",
-        url: "<?= site_url('Registration/saveRegistration'); ?>",
-        data: $('#registrationForm').serialize(),
-        dataType: "json",
-        success: function (response) {
-            if (response.status === 'success') {
-                alert("✅ " + response.message);
-				 location.reload(); // ✅ This refreshes page so updated data shows
+  $.ajax({
+    type: "POST",
+    url: "<?= site_url('Registration/saveRegistration'); ?>",
+    data: $('#registrationForm').serialize(),
+    dataType: "json",
+    success: function(response) {
+        if (response.status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Saved!',
+                text: response.message,
+                confirmButtonText: 'OK'
+            }).then(() => {
+                
+                // Reset form and close modal after OK
                 $('#registrationForm')[0].reset();
                 $('#btn_save').text('Save');
                 $('#reg_id').prop('readonly', false);
                 $('#modal-registration').modal('hide');
-                loadPatientsTable(); // reload list
-            } else {
-                alert("❌ Error: " + response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            alert("AJAX Error: " + error);
-            console.error(xhr.responseText);
+
+                // OPTION A – FULL PAGE REFRESH (same as your old code)
+                location.reload();  // ✅ ADD THIS LINE
+
+                // If you prefer only table reload, remove above and use:
+                // loadPatientsTable();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.message,
+                confirmButtonText: 'OK'
+            });
         }
-    });
+    },
+    error: function(xhr, status, error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'AJAX Error',
+            text: error,
+            confirmButtonText: 'OK'
+        });
+        console.error(xhr.responseText);
+    }
 });
 
-    // ===========================
-    // EDIT button click handler
-    // ===========================
+});
+
     $(document).on('click', '.btn_edit', function(){
         let reg_id = $(this).data('id');
 
