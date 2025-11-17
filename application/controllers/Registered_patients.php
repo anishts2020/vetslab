@@ -92,4 +92,5 @@ class Registered_patients extends CI_Controller {
 }
 
 
+
 }

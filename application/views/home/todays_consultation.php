@@ -35,7 +35,7 @@
 			<img src="<?php echo base_url(); ?>assets/images/other/loader-dark.svg" class="loader-img" alt="Loader">
 		</div>
 
-											<!-- <div class="modal fade" id="modal-role" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+											<div class="modal fade" id="modal-role" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 												<div class="modal-dialog" role="document">
 													<div class="modal-content shadow border-0">
 														<div class="modal-body p-0">
@@ -69,7 +69,7 @@
 														</div>
 													</div>
 												</div>
-											</div> -->
+											</div>
 
 		<!-- PAGE -->
 		<div class="page">
@@ -124,9 +124,7 @@
 											</div>
 										</div>
 									</div>-->
-									<!-- <span class="mt-3 mt-md-0 pg-header">
-										<a href="#" class="btn btn-info ml-0 ml-md-4 mt-1" data-toggle="modal" data-target="#modal-role"><i class="typcn typcn-plus"></i> Add New Patient</a>
-									</span> -->
+									
 								</div>
 							</div>
 						</div>
@@ -135,226 +133,62 @@
 						<!-- YOU CAN WRITE CODE HERE - START-->
 						
 						<div class="row">
-							<!-- ======================== -->
-							<!-- LAB TEST DETAILS (Form) -->
-							<!-- ======================== -->
 							<div class="col-md-12 col-lg-12">
 								<div class="card">
 									<div class="card-header">
-										<div class="card-title">🧪 Lab Test Details</div>
+										<div class="card-title">Patient List View</div>
 										<div class="card-options">
 											<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
 											<a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>
 										</div>
 									</div>
-
 									<div class="card-body">
-										<div class="container mt-3">
-											<?php
-											$test_names = array_column($lab_test_master, 'lab_test_name', 'lab_test_id');
-											?>
-
-											<h4>Lab Test - <?= implode(', ', $test_names); ?></h4>
-											
-											<hr>
-
-											<form action="<?= site_url('Registered_patients/save_lab_results/'.$registration['reg_id']); ?>" method="post">
-												<table class="table table-bordered">
-													<thead style="background-color:#005c99;color:#fff;">
-														<tr>
-															<th>Test Name</th>
-															<th>Result</th>
-														</tr>
-													</thead>
-													<tbody>
-														<?php
-														// Group details by lab_test_id
-														$grouped_details = [];
-														foreach ($lab_test_details as $detail) {
-															$grouped_details[$detail['lab_test_id']][] = $detail;
-														}
-
-														foreach ($grouped_details as $lab_test_id => $details):
-															$lab_name = $test_names[$lab_test_id] ?? 'Unknown Test';
-														?>
-															<!-- Lab Test Heading -->
-															<tr style="background-color:#006bb3;color:#fffff;">
-																<td colspan="3"><strong><?= $lab_name; ?></strong></td>
-															</tr>
-
-															<?php foreach ($details as $detail): 
-																$result_value = '';
-																foreach ($lab_test_results as $r) {
-																	if ($r->lab_test_details_id == $detail['lab_test_details_id']) {
-																		$result_value = $r->result_value;
-																		break;
-																	}
-																}
-
-																$data_type = strtolower($detail['data_type']);
-																$input_html = '';
-
-																switch ($data_type) {
-																	case 'textbox':
-																		$input_html = '<input type="text" name="result['.$lab_test_id.']['.$detail['lab_test_details_id'].']" value="'.$result_value.'" class="form-control">';
-																		break;
-
-																	case 'select':
-																		$input_html = '
-																			<select name="result['.$lab_test_id.']['.$detail['lab_test_details_id'].']" class="form-control">
-																				<option value="">Select</option>
-																				<option value="Normal" '.($result_value == "Normal" ? "selected" : "").'>Normal</option>
-																				<option value="Abnormal" '.($result_value == "Abnormal" ? "selected" : "").'>Abnormal</option>
-																			</select>';
-																		break;
-
-																	case 'radio':
-																		$input_html = '
-																			<label><input type="radio" name="result['.$lab_test_id.']['.$detail['lab_test_details_id'].']" value="Yes" '.($result_value == "Yes" ? "checked" : "").'> Yes</label>
-																			<label class="ml-3"><input type="radio" name="result['.$lab_test_id.']['.$detail['lab_test_details_id'].']" value="No" '.($result_value == "No" ? "checked" : "").'> No</label>';
-																		break;
-
-																	default:
-																		$input_html = '<input type="text" name="result['.$lab_test_id.']['.$detail['lab_test_details_id'].']" value="'.$result_value.'" class="form-control">';
-																}
-															?>
-																<tr>
-																	<td style="padding-left:30px;"><?= $detail['label_name']; ?></td>
-																	<td><?= $input_html; ?></td>
-																	
-																</tr>
-															<?php endforeach; ?>
-														<?php endforeach; ?>
-													</tbody>
-												</table>
-
-												<div class="text-center mt-3">
-													<button type="submit" class="btn btn-primary">💾 Save Results</button>
-													<a href="<?= site_url('Registered_patients'); ?>" class="btn btn-secondary">← Back</a>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- ======================== -->
-							<!-- SAVED LAB TEST RESULTS -->
-							<!-- ======================== -->
-							<div class="col-md-12 col-lg-12 mt-4">
-
-							<div class="card">
-
-								<div class="card-header">
-									<div class="card-title"> Result </div>
-									<div class="card-options">
-										<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-										<a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>
-									</div>
-								</div>
-
-								<div class="card-body">
-
-									<!-- ======================== -->
-									<!-- PATIENT INFORMATION -->
-									<!-- ======================== -->
-									<h5 class="mb-3"><strong>🧑‍⚕ Patient Information</strong></h5> <br>
-
-									<div class="row mb-4">
-
-										<div class="col-md-3 mb-2">
-											<strong>Patient Name :</strong> <?= $registration['patient_name'] ?? 'N/A'; ?>
-										</div>
-
-										<div class="col-md-3 mb-2">
-											<strong>Age :</strong>
-											<?= ($registration['age'] ?? 'N/A') . ' ' . ($registration['y_m_d'] ?? ''); ?>
-										</div>
-
-
-										<div class="col-md-2 mb-2">
-											<strong>Gender :</strong> <?= $registration['sex'] ?? 'N/A'; ?>
-										</div>
-
-										<div class="col-md-2 mb-2">
-											<strong>Species :</strong> <?= $registration['select_species'] ?? 'N/A'; ?>
-										</div>
-
-										<div class="col-md-3 mb-2">
-											<strong>Breed :</strong> <?= $registration['select_breed'] ?? 'N/A'; ?>
-										</div>
-
-										<div class="col-md-3 mb-2">
-											<strong>Owner Name :</strong> <?= $registration['owners_name'] ?? 'N/A'; ?>
-										</div>
-
-										<div class="col-md-3 mb-2">
-											<strong>Contact :</strong> <?= $registration['mob_no'] ?? 'N/A'; ?>
-										</div>
-
-									</div>
-
-									<hr>
-
-									<!-- ======================== -->
-									<!-- SAVED LAB TEST RESULTS -->
-									<!-- ======================== -->
-									<h5 class="mt-2 mb-3"><strong></strong></h5>
-
-									<table class="table table-bordered">
-										<thead style="background-color:#005c99;color:#fff;">
-											<tr>
-												<th>Test Name</th>
-												<th>Result</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php if (!empty($lab_test_results)): ?>
-												<?php
-												$grouped_results = [];
-												foreach ($lab_test_results as $res) {
-													$grouped_results[$res->lab_test_id][] = $res;
-												}
-
-												foreach ($grouped_results as $lab_test_id => $results):
-													$lab_name = $test_names[$lab_test_id] ?? 'Unknown Test';
-												?>
-													<tr style="background-color:#006bb3;color:#fffff;">
-														<td colspan="2"><strong><?= $lab_name; ?></strong></td>
+										<div class="table-responsive ">
+										<table class="table" id="todayConsultTable">
+												<thead style="background-color:#003366;color:#fff;">
+													<tr>
+														<th>SI No</th>
+														<th>Patient Name</th>
+														<th>Age</th>
+														<th>Sex</th>
+														<th>Species</th>
+														<th>Breed</th>
+														<th>Consultation Fee</th>
+														<th>Contact</th>
+														<th>Place</th>
+														
 													</tr>
-
-													<?php foreach ($results as $res): 
-														$label_name = '';
-														foreach ($lab_test_details as $d) {
-															if ($d['lab_test_details_id'] == $res->lab_test_details_id) {
-																$label_name = $d['label_name'];
-																break;
-															}
-														}
-													?>
+												</thead>
+												<tbody>
+													
+													<?php foreach($all_patients as $key => $row) { ?>
 														<tr>
-															<td style="padding-left:30px;"><?= $label_name; ?></td>
-															<td><?= $res->result_value ?: '—'; ?></td>
+															<td><?= $key + 1 ?></td>
+															<td><?= $row['patient_name'] ?></td>
+															<td><?= $row['age'] ?></td>
+															<td><?= $row['sex'] ?></td>
+															<td><?= $row['select_species'] ?></td>
+															<td><?= $row['select_breed'] ?></td>
+															<td><?= $row['con_fee'] ?></td>
+															<td><?= $row['mob_no'] ?></td>
+															<td><?= $row['place'] ?></td>
+															
+															
 														</tr>
-													<?php endforeach; ?>
-												<?php endforeach; ?>
+													<?php } ?>
 
-											<?php else: ?>
-												<tr>
-													<td colspan="2" class="text-center text-muted">No results saved yet.</td>
-												</tr>
-											<?php endif; ?>
-										</tbody>
-									</table>
 
+												</tbody> 
+											</table>
+
+										</div>
+									</div>
+									<!-- table-wrapper -->
 								</div>
+								<!-- section-wrapper -->
 							</div>
-							</div>
-
-
 						</div>
-
-                    </div>
+						
 						
 						<!-- YOU CAN WRITE CODE HERE - END -->
 					</div>
@@ -403,6 +237,7 @@
 
 		<!-- Rating-star js -->
 		<script src="<?php echo base_url(); ?>assets/plugins/rating/jquery.rating-stars.js"></script>
+		
 
 		<!-- Clipboard js -->
 		<script src="<?php echo base_url(); ?>assets/plugins/clipboard/clipboard.min.js"></script>
@@ -443,7 +278,7 @@
 		<!-- Rightsidebar js -->
 		<script src="<?php echo base_url(); ?>assets/plugins/sidebar/sidebar.js"></script>
 
-
+        
 
 		<!-- Custom js -->
 		<script src="<?php echo base_url(); ?>assets/js/custom-dark.js"></script>
@@ -452,5 +287,44 @@
 		<script src="<?php echo base_url(); ?>assets/datatable/jquery.dataTables.min.js"></script>
 		<script src="<?php echo base_url(); ?>assets/datatable/bootstrap.bundle.min.js"></script>
 
+
+
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+		<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+		
+
+		<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+
 	</body>
 </html>
+
+<script>
+$(document).ready(function() {
+
+    if ($.fn.DataTable.isDataTable('#todayConsultTable')) {
+        $('#todayConsultTable').DataTable().destroy();
+    }
+
+    $('#todayConsultTable').DataTable({
+        searching: true,
+        ordering: true,
+        paging: true,
+        info: true,
+        dom: 'Bfrtip',
+        buttons: [
+            { extend: 'excelHtml5', title: 'Today ConsultTable List' },
+            { extend: 'pdfHtml5', title: 'Today ConsultTable List' }
+           
+        ]
+    });
+
+});
+</script>

@@ -41,12 +41,12 @@
 														<div class="modal-body p-0">
 															<div class="mb-0">
 																<div class="card-body px-lg-5 py-lg-5">
-																	<div class="text-center mb-4 h4">
+																	<!-- <div class="text-center mb-4 h4">
 																		Add New Role
 																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																			<span aria-hidden="true">&times;</span>
 																		</button>
-																	</div>
+																	</div> -->
 																	
 																		<div class="form-group mb-3">
 																			<div class="input-group input-group-alternative">
@@ -124,9 +124,9 @@
 											</div>
 										</div>
 									</div>-->
-									<span class="mt-3 mt-md-0 pg-header">
+									<!-- <span class="mt-3 mt-md-0 pg-header">
 										<a href="#" class="btn btn-info ml-0 ml-md-4 mt-1" data-toggle="modal" data-target="#modal-role"><i class="typcn typcn-plus"></i> Add New Patient</a>
-									</span>
+									</span> -->
 								</div>
 							</div>
 						</div>
@@ -152,6 +152,7 @@
 														<th>SI No</th>
 														<th>Patient Name</th>
 														<th>Age</th>
+														<th>Years/Month/days</th>
 														<th>Sex</th>
 														<th>Species</th>
 														<th>Breed</th>
@@ -167,6 +168,7 @@
 															<td><?= $key + 1 ?></td>
 															<td><?= $row['patient_name'] ?></td>
 															<td><?= $row['age'] ?></td>
+															<td><?= $row['y_m_d'] ?></td>
 															<td><?= $row['sex'] ?></td>
 															<td><?= $row['select_species'] ?></td>
 															<td><?= $row['select_breed'] ?></td>
