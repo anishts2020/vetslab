@@ -24,9 +24,7 @@
 <body class="app dark-mode">
 
     <!-- Loader -->
-    <div id="loading">
-        <img src="<?php echo base_url(); ?>assets/images/other/loader-dark.svg" class="loader-img" alt="Loader">
-    </div>
+   
 
     <div class="page">
         <div class="page-main">
