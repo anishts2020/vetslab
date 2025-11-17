@@ -485,18 +485,26 @@ $(document).ready(function(){
         dataType: "json",
         success: function (response) {
             if (response.status === 'success') {
-                alert("✅ " + response.message);
+                Swal.fire({
+
+                text: "Registration saved succesfully!",
+                icon: "success"
+                });
                 $('#registrationForm')[0].reset();
                 $('#btn_save').text('Save');
                 $('#reg_id').prop('readonly', false);
                 $('#modal-registration').modal('hide');
                 loadPatientsTable();
+				setTimeout(() => location.reload(), 2000);
             } else {
-                alert("❌ Error: " + response.message);
+                 Swal.fire({
+                text: "Error!",
+                icon: "Error"
+                });
             }
         },
         error: function (xhr, status, error) {
-            alert("AJAX Error: " + error);
+               alert("AJAX Error: " + error);
             console.error(xhr.responseText);
         }
     });
