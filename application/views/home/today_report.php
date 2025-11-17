@@ -281,6 +281,7 @@
 		<script src="<?php echo base_url(); ?>assets/datatable/jquery-3.7.1.min.js"></script>
 		<script src="<?php echo base_url(); ?>assets/datatable/jquery.dataTables.min.js"></script>
 		<script src="<?php echo base_url(); ?>assets/datatable/bootstrap.bundle.min.js"></script>
+		
 
 	</body>
 </html>
@@ -295,5 +296,48 @@ $(document).ready(function() {
            
         });
 	}
+});
+</script>
+<!-- DATATABLE CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Datatables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+
+<!-- Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script>
+$(document).ready(function() {
+
+    if ($.fn.DataTable.isDataTable('#table_roles')) {
+        $('#table_roles').DataTable().destroy();
+    }
+
+    $('#table_roles').DataTable({
+        searching: true,
+        ordering: true,
+        paging: true,
+        info: true,
+        dom: 'Bfrtip',
+        buttons: [
+            { extend: 'excelHtml5', title: 'Today ConsultTable List' },
+            { extend: 'pdfHtml5', title: 'Today ConsultTable List' }
+           
+        ]
+    });
+
 });
 </script>
